@@ -96,7 +96,7 @@ get '/historicaldata/:val' do
 		
 		avg = (data[i].low.to_f + data[i].open.to_f + data[i].close.to_f + data[i].high.to_f)/4
 		
-		day = Time::now-(24*60*60*i)
+		day = Date::today-i#(24*60*60*i)
 		
 		sData += "{#{id}:#{i + 1}, #{date}: \"#{day}\", #{average}:#{avg}}"
 		
