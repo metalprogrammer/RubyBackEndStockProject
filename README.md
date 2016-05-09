@@ -1,12 +1,10 @@
 Set up
 Besides Ruby and the yahoo finance gem the following dependencies are needed. 
-sinatra
+[sinatra](https://rubygems.org/gems/sinatra/versions/1.4.7)
 =Used for the ruby backend 
-https://rubygems.org/gems/sinatra/versions/1.4.7
 
-sinatra-cross_origin
+[sinatra-cross_origin](https://rubygems.org/gems/sinatra-cross_origin/versions/0.3.2)
 =sintra plug-in to allow cross site scripting 
-https://rubygems.org/gems/sinatra-cross_origin/versions/0.3.2
 
 in ruby/bin run 
 ruby app.rb
