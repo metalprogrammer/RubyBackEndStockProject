@@ -7,33 +7,45 @@ set :static, true
 set :public_folder, "static"
 set :views, "views"
 
-stockList = [];
-symbolList = []
 
-def updateStockList(name,stockList, symbolList)
+class StockData
+	attr_accessor :stock 
+	attr_accessor :symbol
+	
+	def initialize(stock, symbol)
+      @stock=stock
+      @symbol=symbol
+   end
+	
+end
+
+stocks = []
+
+def updateStockList(name,stocks)
 	count = 0
 	File.open(name, "r") do |f|
 		f.each_line do |line|
 			if count > 0
 				split = line.split(",")
-				stockList<<split[1]
-				symbolList<<split[0]
+				name = split[1]
+				sym = split[0]
+				stocks << StockData.new(name, sym)
 			end
 			count += 1
 		end
 	end
 end
 
-def toJson(stockList,symbolList)
+def toJson(stocks)
 	json = '{"stocklisting": {"id": "stockList","listofstocks": ['
 	entry = ']} ,"stocks":['
 	id = '"id"'
 	name = '"name"'
 	symbol = '"symbol"'
-	for i in 0..stockList.count-1
+	for i in 0..stocks.count-1
 		json += (i + 1).to_s
-		entry += "{#{id}:#{i + 1}, #{name} : \"#{stockList[i].delete('"')}\" , #{symbol} : \"#{symbolList[i].delete('"')}\" }"
-		if i < (stockList.count - 1)
+		entry += "{#{id}:#{i + 1}, #{name} : \"#{stocks[i].stock.delete('"')}\" , #{symbol} : \"#{stocks[i].symbol.delete('"')}\" }"
+		if i < (stocks.count - 1)
 			json += ","
 			entry += ","
 		end
@@ -42,8 +54,12 @@ def toJson(stockList,symbolList)
 end
 
 
-updateStockList("companylist.csv",stockList,symbolList)
-jsonList = toJson(stockList,symbolList)
+updateStockList("companylist1.csv",stocks)
+updateStockList("companylist2.csv",stocks)
+updateStockList("companylist3.csv",stocks)
+stocks.sort{|x,y| x.stock.capitalize  <=> y.stock.capitalize }
+
+jsonList = toJson(stocks)
 # ...
 
 
